@@ -1,26 +1,25 @@
 package com.exam;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import com.exam.service.UserService;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-public class ExamserverApplication 
-//implements CommandLineRunner 
-{
+@EnableSwagger2
+public class ExamserverApplication extends SpringBootServletInitializer {
 
-//	@Autowired
-//	private PasswordEncoder bcryptEncoder;
-	
-	@Autowired
-	private UserService userService;
-	
-	
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(ExamserverApplication.class);
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(ExamserverApplication.class, args);
 	}
+
 
 //	@Override
 //	public void run(String... args) throws Exception {

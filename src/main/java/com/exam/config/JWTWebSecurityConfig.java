@@ -65,11 +65,13 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable().cors().disable().exceptionHandling()
+		httpSecurity.csrf().disable().exceptionHandling()
 				.authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("authenticationPath", "/user/").permitAll().antMatchers(HttpMethod.OPTIONS).permitAll()
-				.anyRequest().authenticated();
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().
+				antMatchers("/user/",
+						authenticationPath,"/user/**")
+				.permitAll().anyRequest()
+				.authenticated();
 
 		httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -77,13 +79,23 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.cacheControl(); // disable caching
 	}
 
-	@Override
-	public void configure(WebSecurity webSecurity) throws Exception {
-		webSecurity.ignoring().antMatchers(HttpMethod.POST, authenticationPath).antMatchers(HttpMethod.OPTIONS, "/**")
-				.and().ignoring().antMatchers(HttpMethod.GET, "/" // Other Stuff You want to Ignore
-				).and().ignoring()
-				// .antMatchers("/h2-console/**/**") // Should not be done in Production!
-				.antMatchers("/swagger-ui.html**", "/webjars/**", "/v2/**").antMatchers("/swagger-resources/**");
-	}
+	private static final String[] AUTH_WHITELIST = {
+	        "/swagger-resources/**",
+	        "/swagger-ui.html",
+	        "/v2/api-docs",
+	        "/webjars/**"
+	};
+
+//	@Override
+//	public void configure(WebSecurity web) throws Exception {
+//	    web.ignoring().antMatchers(AUTH_WHITELIST);
+//	}
+	
+	
+	 @Override
+	    public void configure(WebSecurity web) throws Exception {
+	        web.ignoring().antMatchers("/webjars/**", "/swagger-ui.html**", "/favicon.ico",
+	            "/csrf**",    "/swagger-resources**", "/swagger-resources/**",  "/v2/api-docs**");
+	    }
 
 }
