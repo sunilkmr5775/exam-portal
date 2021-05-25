@@ -138,7 +138,7 @@ public class Quiz {
 	
 	
 	
-	public Set<Question> getQuestions() {
+	public Set<Question> getQuestions(Quiz quiz) {
 		return questions;
 	}
 
