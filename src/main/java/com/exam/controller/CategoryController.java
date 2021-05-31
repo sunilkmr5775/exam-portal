@@ -1,5 +1,6 @@
 package com.exam.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,6 +33,7 @@ public class CategoryController {
 //	 ADD CATEGORY
 	@PostMapping("/")
 	public ResponseEntity<?> addCategory(@RequestBody Category category){
+		category.setCreatedDate(LocalDateTime.now());
 		category.setModifiedDate(null);
 		Category category1 = this.categoryService.addCategory(category);
 		category1.setModifiedDate(null);
@@ -42,6 +44,7 @@ public class CategoryController {
 //	 UPDATE CATEGORY
 	@PutMapping("/")
 	public ResponseEntity<Category> updateCategory(@RequestBody Category category){
+		category.setModifiedDate(LocalDateTime.now());
 		Category category2 = this.categoryService.updateCategory(category);
 		return ResponseEntity.ok(category2);
 		
@@ -49,7 +52,7 @@ public class CategoryController {
 	
 //	 GET ALL CATEGORIES
 	@GetMapping("/")
-	public Set<Category> getCategories(@RequestBody Category category){
+	public Set<Category> getCategories(){
 		return new HashSet<>(this.categoryService.getCategories());
 		
 	}

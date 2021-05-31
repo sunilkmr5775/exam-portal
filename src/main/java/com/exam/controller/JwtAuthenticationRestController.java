@@ -1,36 +1,35 @@
 package com.exam.controller;
 
-import java.security.Principal;
 import java.util.Objects;
+
+import javax.security.sasl.AuthenticationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exam.exception.UserFoundException;
 import com.exam.exception.UserNotFoundException;
 import com.exam.jwt.JwtTokenUtil;
-//import com.exam.jwt.JwtUserDetails;
 import com.exam.model.JwtRequest;
 import com.exam.model.JwtResponse;
-import com.exam.model.User;
-//import com.exam.model.UserDto;
 import com.exam.service.JwtUserDetailsService;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200")
-@CrossOrigin("*")
+@Component
+@CrossOrigin(origins="http://localhost:4200")
 public class JwtAuthenticationRestController {
 
 	@Value("${jwt.http.request.header}")
@@ -48,7 +47,7 @@ public class JwtAuthenticationRestController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
-	@RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
+	@RequestMapping(value ="${jwt.get.token.uri}", method = RequestMethod.POST)
 	public JwtResponse createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		JwtResponse jwtResponse = new JwtResponse();
 		
@@ -71,6 +70,8 @@ public class JwtAuthenticationRestController {
 		 return jwtResponse;
 	}
 
+
+
 //	@RequestMapping(value = "/register", method = RequestMethod.POST)
 //	public ResponseEntity<?> saveUser(@RequestBody User user) throws Exception {
 //		return ResponseEntity.ok(userDetailsService.save(user));
@@ -91,10 +92,10 @@ public class JwtAuthenticationRestController {
 //		}
 //	}
 
-//	@ExceptionHandler({ AuthenticationException.class })
-//	public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
-//		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-//	}
+	@ExceptionHandler({ AuthenticationException.class })
+	public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	}
 
 	
 	private void authenticate(String username, String password) throws Exception {
@@ -111,9 +112,4 @@ public class JwtAuthenticationRestController {
 	}
 	
 	
-	// Returns the details of current user
-	@GetMapping("/current-user")
-	public User getCurrentUser(Principal principal) {
-		return ((User) this.userDetailsService.loadUserByUsername(principal.getName()));
-	}
 }

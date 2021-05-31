@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.exam.jwt.JwtAuthenticationEntryPoint;
 import com.exam.jwt.JwtAuthenticationTokenFilter;
@@ -68,8 +70,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().exceptionHandling()
 				.authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().
-				antMatchers("/user/",
-						authenticationPath,"/user/**")
+				antMatchers(HTTP_SEC_AUTH_WHITELIST)
 				.permitAll().anyRequest()
 				.authenticated();
 
@@ -79,23 +80,36 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.cacheControl(); // disable caching
 	}
 
-	private static final String[] AUTH_WHITELIST = {
-	        "/swagger-resources/**",
-	        "/swagger-ui.html",
-	        "/v2/api-docs",
-	        "/webjars/**"
+	private String[] HTTP_SEC_AUTH_WHITELIST = {
+			"/user/","/generateToken"
+//			,"/user/**"
+//			,"/current-user/"
+//			,"/category/"
 	};
+	
+//	private static final String[] WEB_SEC_AUTH_WHITELIST = {
+//	        "/swagger-resources/**",
+//	        "/swagger-ui.html",
+//	        "/v2/api-docs",
+//	        "/webjars/**"
+//	};
 
-//	@Override
-//	public void configure(WebSecurity web) throws Exception {
-//	    web.ignoring().antMatchers(AUTH_WHITELIST);
-//	}
+
+//		 @Override
+//	    public void configure(WebSecurity web) throws Exception {
+//	        web.ignoring().antMatchers("/webjars/**", "/swagger-ui.html**", "/favicon.ico",
+//	            "/csrf**",    "/swagger-resources**", "/swagger-resources/**",  "/v2/api-docs**");
+//	    }
 	
-	
-	 @Override
-	    public void configure(WebSecurity web) throws Exception {
-	        web.ignoring().antMatchers("/webjars/**", "/swagger-ui.html**", "/favicon.ico",
-	            "/csrf**",    "/swagger-resources**", "/swagger-resources/**",  "/v2/api-docs**");
-	    }
+	@Override
+	public void configure(WebSecurity webSecurity) throws Exception {
+		webSecurity.ignoring().antMatchers(HttpMethod.POST, authenticationPath)
+				.antMatchers(HttpMethod.OPTIONS, "/**")
+				.and().ignoring()
+				.antMatchers(HttpMethod.GET, "/" // Other Stuff You want to Ignore
+				).and().ignoring()
+			//	.antMatchers("/h2-console/**/**") // Should not be done in Production!
+				.antMatchers("/swagger-ui.html**", "/swagger-resources**", "/swagger-resources/**",  "/v2/api-docs**");
+	}
 
 }

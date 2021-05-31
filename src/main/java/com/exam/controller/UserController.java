@@ -1,5 +1,6 @@
 package com.exam.controller;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,7 @@ import com.exam.exception.UserNotFoundException;
 import com.exam.model.Role;
 import com.exam.model.User;
 import com.exam.model.UserRole;
+import com.exam.service.JwtUserDetailsService;
 import com.exam.service.UserService;
 
 @RestController
@@ -34,6 +36,16 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private JwtUserDetailsService userDetailsService;
+	
+	// Returns the details of current user
+	@GetMapping(value = "/current-user")
+	public User getCurrentUser(Principal principal) {
+		System.out.println("username in controller: "+principal.getName());
+		return ((User) this.userDetailsService.loadUserByUsername(principal.getName()));
+	}
 	
 	
 	@PostMapping("/")

@@ -48,9 +48,6 @@ public class QuestionController {
 //	 UPDATE QUESTION
 	@PutMapping("/")
 	public ResponseEntity<Question> updateQuestion(@RequestBody Question question) {
-		if (question.getCreatedDate() == null) {
-			question.setCreatedDate(LocalDateTime.now());
-		}
 		return ResponseEntity.ok(this.questionService.updateQuestion(question));
 
 	}
