@@ -19,7 +19,7 @@ public class UserRole {
 	private long userRoleId;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	private User user;
+	private Users users;
 
 	@ManyToOne
 	private Role role;
@@ -27,9 +27,9 @@ public class UserRole {
 	public UserRole() {
 	}
 
-	public UserRole(long userRoleId, User user, Role role) {
+	public UserRole(long userRoleId, Users users, Role role) {
 		this.userRoleId = userRoleId;
-		this.user = user;
+		this.users = users;
 		this.role = role;
 	}
 
@@ -41,12 +41,12 @@ public class UserRole {
 		this.userRoleId = userRoleId;
 	}
 
-	public User getUser() {
-		return user;
+	public Users getUser() {
+		return users;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(Users users) {
+		this.users = users;
 	}
 
 	public Role getRole() {

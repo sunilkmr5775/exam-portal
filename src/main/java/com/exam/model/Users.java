@@ -1,8 +1,10 @@
 package com.exam.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
+//import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,22 +14,26 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "USER_DETAILS")
-public class User  implements UserDetails 
+public class Users  implements UserDetails,Serializable 
 {
 	
 	private static final long serialVersionUID = 1L;
+
+	public Users() {
+		 super();
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,12 +67,15 @@ public class User  implements UserDetails
 	@Column(name = "PHONE")
 	private String phone;
 
-	@Column(name = "enabled")
+	@Column(name = "ENABLED")
 	private boolean enabled=true;
 
-	@Column(name = "PROFILE_IMAGE")
-	private String profileImage;
+//	@OneToOne(cascade =  CascadeType.ALL, mappedBy = "userProfilePic")
+//	private ProfilePic profilePic;
 
+//	@Column(name = "PROFILE_IMAGE_ID")
+//	private String profileImageId;
+	
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 
@@ -78,11 +87,14 @@ public class User  implements UserDetails
 
 //	User has many roles
 
-	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "users")
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 	
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinColumn(name="PROFILE_PIC_ID", referencedColumnName = "PROFILE_PIC_ID")
+	private ProfilePic profilePic;
 	
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
@@ -92,28 +104,6 @@ public class User  implements UserDetails
 		this.userRoles = userRoles;
 	}
 
-	public User() {
-	}
-
-	public User(long id, String username, String password, String firstName, String lastName, 
-//			String gender,
-			String email, String phone, boolean enabled, String profileImage, String createdBy,
-			LocalDateTime createdDate, LocalDateTime modifiedDate) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-//		this.gender = gender;
-		this.email = email;
-		this.phone = phone;
-		this.enabled = enabled;
-		this.profileImage = profileImage;
-
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-		this.modifiedDate = modifiedDate;
-	}
 
 	public long getId() {
 		return id;
@@ -212,22 +202,16 @@ public class User  implements UserDetails
 //		this.gender = gender;
 //	}
 
-	public String getProfileImage() {
-		return profileImage;
+
+	public ProfilePic getProfilePic() {
+		return profilePic;
 	}
 
-	public void setProfileImage(String profileImage) {
-		this.profileImage = profileImage;
+	public void setProfilePic(ProfilePic profilePic) {
+		this.profilePic = profilePic;
 	}
-
-	@Override
-	public String toString() {
-		return "UserModel [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName /*+ ", gender=" + gender*/ + ", email=" + email + ", phone=" + phone
-				+ ", enabled=" + enabled + ",  createdBy=" + createdBy + ", createdDate="
-				+ createdDate + ", modifiedDate=" + modifiedDate + ", profileImage=" + profileImage + "]";
-	}
-
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -237,6 +221,7 @@ public class User  implements UserDetails
 		});
 		return authoritySet;
 	}
+
 
 
 	@Override
@@ -262,5 +247,5 @@ public class User  implements UserDetails
 		// TODO Auto-generated method stub
 		return true;
 	}
-
+	
 }

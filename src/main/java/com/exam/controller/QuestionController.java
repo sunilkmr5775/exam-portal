@@ -28,7 +28,7 @@ import com.exam.service.QuizService;
 @RestController
 @Component
 @RequestMapping("/question")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class QuestionController {
 
 	@Autowired

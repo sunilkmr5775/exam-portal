@@ -87,20 +87,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 //			,"/category/"
 	};
 	
-//	private static final String[] WEB_SEC_AUTH_WHITELIST = {
-//	        "/swagger-resources/**",
-//	        "/swagger-ui.html",
-//	        "/v2/api-docs",
-//	        "/webjars/**"
-//	};
 
-
-//		 @Override
-//	    public void configure(WebSecurity web) throws Exception {
-//	        web.ignoring().antMatchers("/webjars/**", "/swagger-ui.html**", "/favicon.ico",
-//	            "/csrf**",    "/swagger-resources**", "/swagger-resources/**",  "/v2/api-docs**");
-//	    }
-	
 	@Override
 	public void configure(WebSecurity webSecurity) throws Exception {
 		webSecurity.ignoring().antMatchers(HttpMethod.POST, authenticationPath)
@@ -109,7 +96,15 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/" // Other Stuff You want to Ignore
 				).and().ignoring()
 			//	.antMatchers("/h2-console/**/**") // Should not be done in Production!
-				.antMatchers("/swagger-ui.html**", "/swagger-resources**", "/swagger-resources/**",  "/v2/api-docs**");
+				.antMatchers(WEB_SEC_AUTH_WHITELIST);
 	}
+
+	private static final String[] WEB_SEC_AUTH_WHITELIST = {
+	        "/swagger-resources/**",
+	        "/swagger-ui.html",
+	        "/v2/api-docs",
+	        "/favicon.ico",
+	        "/webjars/**"
+	};
 
 }

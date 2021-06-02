@@ -1,5 +1,6 @@
 package com.exam.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -15,11 +16,13 @@ public class QuizServiceImpl implements QuizService {
 
 	@Autowired
 	private QuizRepository quizRepository;
-	
-	
+
 	@Override
 	public Quiz addQuiz(Quiz quiz) {
-		return	this.quizRepository.save(quiz);
+		
+		quiz.setCreatedDate(LocalDateTime.now());
+		quiz.setModifiedDate(null);
+		return this.quizRepository.save(quiz);
 	}
 
 	@Override
@@ -43,6 +46,6 @@ public class QuizServiceImpl implements QuizService {
 		Quiz quiz = new Quiz();
 		quiz.setqId(quizId);
 		this.quizRepository.delete(quiz);
-		
+
 	}
 }

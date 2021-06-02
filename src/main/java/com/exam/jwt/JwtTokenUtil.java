@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.exam.model.User;
+import com.exam.model.Users;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
@@ -92,9 +92,9 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
-		User user = (User) userDetails;
+		Users users = (Users) userDetails;
 		final String username = getUsernameFromToken(token);
-		return (username.equals(user.getUsername()) && !isTokenExpired(token));
+		return (username.equals(users.getUsername()) && !isTokenExpired(token));
 	}
 
 	private Date calculateExpirationDate(Date createdDate) {

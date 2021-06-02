@@ -1,5 +1,6 @@
 package com.exam.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -20,6 +21,9 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	public Category addCategory(Category category) {
+//		category.setCreatedBy(category.get);
+		category.setCreatedDate(LocalDateTime.now());
+		category.setModifiedDate(null);
 		return	this.categoryRepository.save(category);
 	}
 

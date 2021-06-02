@@ -1,16 +1,12 @@
 package com.exam.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.exam.model.User;
+import com.exam.model.Users;
 //import com.myportal.model.UserDao;
 //import com.myportal.model.UserDto;
 import com.exam.repository.UserRepository;
@@ -24,14 +20,14 @@ public class JwtUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("username in jwt service: "+username);
-		User user = this.userRepository.findByUsername(username);
+		Users users = this.userRepository.findByUsername(username);
 	
-		if (user == null) {
+		if (users == null) {
 			System.out.println("User not found");
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
-		System.out.println("username 3: "+user.getUsername());
-		return (UserDetails) user;
+		System.out.println("username 3: "+users.getUsername());
+		return (UserDetails) users;
 	}
 
 //	public User save(UserDto user) {

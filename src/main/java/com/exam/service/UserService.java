@@ -4,15 +4,15 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.exam.model.User;
 import com.exam.model.UserRole;
+import com.exam.model.Users;
 
 @Service
 public interface UserService {
 
-	public User createUser(User user, Set<UserRole> userRole) throws Exception;
+	public Users createUser(Users users, Set<UserRole> userRole) throws Exception;
 	
-	public User getUser(String username);
+	public Users getUser(String username);
 	
 	public void deleteUser(Long id);
 }

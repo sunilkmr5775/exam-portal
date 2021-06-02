@@ -4,14 +4,12 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.exam.exception.UserFoundException;
-import com.exam.model.User;
 import com.exam.model.UserRole;
+import com.exam.model.Users;
 import com.exam.repository.RoleRepository;
 import com.exam.repository.UserRepository;
 import com.exam.service.UserService;
@@ -29,9 +27,9 @@ public class UserServiceImpl implements UserService {
 	private PasswordEncoder bcryptPassEncoder;
 	
 	@Override
-	public User createUser(User user, Set<UserRole> userRole) throws Exception {
+	public Users createUser(Users users, Set<UserRole> userRole) throws Exception {
 
-		User local = this.userRepository.findByUsername(user.getUsername());
+		Users local = this.userRepository.findByUsername(users.getUsername());
 //		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		if(null!=local) {
 			System.out.println("User already exist!!!");
@@ -41,19 +39,20 @@ public class UserServiceImpl implements UserService {
 			for(UserRole ur: userRole) {
 				roleRepository.save(ur.getRole());
 			}
-			user.getUserRoles().addAll(userRole);
-			user.setCreatedBy(user.getUsername());
-			user.setCreatedDate(LocalDateTime.now());
+			users.getUserRoles().addAll(userRole);
+			users.setCreatedBy(users.getUsername());
+			users.setCreatedDate(LocalDateTime.now());
 //			user.setPassword(encoder.encode(user.getPassword()));
-			user.setPassword(this.bcryptPassEncoder.encode(user.getPassword()));
-			local = userRepository.save(user);
+			users.setPassword(this.bcryptPassEncoder.encode(users.getPassword()));
+			
+			local = userRepository.save(users);
 		}
 		return local;
 	}
 
 
 	@Override
-	public User getUser(String username) {
+	public Users getUser(String username) {
 		
 		return this.userRepository.findByUsername(username);
 	}

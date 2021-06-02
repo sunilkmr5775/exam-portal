@@ -23,7 +23,7 @@ import com.exam.service.QuizService;
 @RestController
 @Component
 @RequestMapping("/quiz")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class QuizController {
 
 	@Autowired
@@ -32,7 +32,7 @@ public class QuizController {
 //	 ADD QUIZ
 	@PostMapping("/")
 	public ResponseEntity<Quiz> addQuiz(@RequestBody Quiz quiz) {
-		quiz.setModifiedDate(null);
+
 		return ResponseEntity.ok(this.quizService.addQuiz(quiz));
 
 	}
