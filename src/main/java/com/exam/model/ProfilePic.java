@@ -21,6 +21,9 @@ public class ProfilePic implements Serializable
 	public ProfilePic() {
 		 super();
 	}
+	public ProfilePic(String string, String string2, byte[] bs) {
+		 super();
+	}
 
 	@Id
 	@Column(name = "PROFILE_PIC_ID")
@@ -30,7 +33,7 @@ public class ProfilePic implements Serializable
 	@Column(name = "FILE_NAME")
 	private String fileName;
 
-	@Column(name = "PIC_BYTE"/* , length = 1000 */)
+	@Column(name = "PIC_BYTE" , length = 1000 )
 	private byte[] picByte;
 
 	@Column(name = "IMAGE_TYPE")
@@ -46,7 +49,7 @@ public class ProfilePic implements Serializable
 	private String fileType;
 
 	@Column(name = "STATUS")
-	private String status;
+	private boolean status=false;
 
 	@Column(name = "CREATED_BY")
 	private String createdBy;
@@ -111,11 +114,11 @@ public class ProfilePic implements Serializable
 		this.fileInPath = fileInPath;
 	}
 
-	public String getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 

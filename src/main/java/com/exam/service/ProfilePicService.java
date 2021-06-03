@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartException;
 
 import com.exam.dto.FileResponse;
+import com.exam.dto.ImageRequest;
+import com.exam.dto.ImageResponse;
 import com.exam.dto.ProfilePicRequest;
+import com.exam.exception.BadParameterException;
 import com.exam.model.JobMaster;
 
 @Service
@@ -21,5 +24,9 @@ public interface ProfilePicService {
 	List<JobMaster> getAllJobs();
 
 	FileResponse uploadProfilePicture(ProfilePicRequest profilePicRequest) throws URISyntaxException, UnsupportedOperationException, IOException, IllegalStateException, MultipartException, FileUploadException;
+
+	ImageResponse getImage(ImageRequest imageRequest) throws BadParameterException;
+
+	FileResponse deleteProfilelPic(ProfilePicRequest profilePicRequest);
 
 }

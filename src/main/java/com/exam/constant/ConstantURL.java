@@ -32,6 +32,7 @@ public interface ConstantURL {
 	public static final String Upload_Profile_Picture = "uploadProfilePicture";
 	public static final String Get_Profile_Pic = "getProfilePic";
 	public static final String Fetch_Pic = "fetchPic";
+	public static final String Delete_Profile_Pic = "deleteProfilePic";
 
 	public static final String Send_Otp = "sendOTP";
 	public static final String Validate_Otp = "validateOTP";

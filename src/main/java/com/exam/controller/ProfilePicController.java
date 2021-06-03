@@ -8,7 +8,9 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.constant.ConstantURL;
 import com.exam.dto.FileResponse;
+import com.exam.dto.ImageRequest;
+import com.exam.dto.ImageResponse;
 import com.exam.dto.ProfilePicRequest;
+import com.exam.exception.BadParameterException;
 import com.exam.model.JobMaster;
-import com.exam.model.ProfilePic;
+import com.exam.model.Users;
 import com.exam.repository.ProfilePicRepository;
 import com.exam.service.ProfilePicService;
 
@@ -41,8 +46,8 @@ public class ProfilePicController {
 	@PostMapping(ConstantURL.Upload_Profile_Picture)
 	public FileResponse UploadPorfilePicture(
 			@RequestParam(value = "username", required=true) String username,
-			@RequestParam(value = "file" ,    required=true) MultipartFile file, 
-			@RequestParam(value = "jobName",  required=true) String jobName
+			@RequestParam(value = "jobName",  required=true) String jobName,
+			@RequestParam(value = "file" ,    required=true) MultipartFile file
 	)
 			throws FileUploadException, UnsupportedOperationException, URISyntaxException, IOException {
 
@@ -55,8 +60,34 @@ public class ProfilePicController {
 
 	}
 
+
+
+	@ApiOperation(value = "Get Porfile Pic", notes = "")
+	@PostMapping(ConstantURL.Fetch_Pic)
+	public ImageResponse getImage(@RequestBody ImageRequest ImageRequest) throws IOException, BadParameterException {
+
+		return profilePicService.getImage(ImageRequest);
+	}
+	
+	
+	@ApiOperation(value = "Delete Porfile Pic", notes = "")
+	@PostMapping(ConstantURL.Delete_Profile_Pic)
+	public FileResponse deleteProfilePic(	
+//			@RequestParam(value = "username", required=true) String username,
+//			@RequestParam(value = "jobName",  required=true) String jobName
+			@RequestBody ProfilePicRequest fileRequest
+			) throws IOException, BadParameterException {
+
+//		ProfilePicRequest fileRequest = new ProfilePicRequest();
+//		fileRequest.setJobName(jobName);
+//		fileRequest.setUsername(username);
+		
+		return profilePicService.deleteProfilelPic(fileRequest);
+	}
+	
+	
 	@ApiOperation(value = "Get all jobs", notes = "")
-//	@GetMapping("/getAllJobs")
+	@GetMapping("/getAllJobs")
 	public List<JobMaster> getAllJobs()
 			throws FileUploadException, UnsupportedOperationException, URISyntaxException, IOException {
 		LOGGER.trace("for tracing purpose");

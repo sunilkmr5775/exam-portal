@@ -142,7 +142,7 @@ public interface ExceptionConstant {
     public static final String FILE_NOT_EXIST_ED  = "File does not exist";
     
 	public static final String IMAGE_DELETED_FROM_DB_EC = "FILEUPLOAD109";
-	public static final String IMAGE_DELETED_FROM_DB_ED = "Image deleted successfully";
+	public static final String IMAGE_DELETED_FROM_DB_ED = "Profile Picture deleted successfully";
 	
     public static final String INVALID_IMAGE_TYPE_EC = "COMMONERROR332";
     public static final String INVALID_IMAGE_TYPE_ED = "INVALID IMAGE TYPE";

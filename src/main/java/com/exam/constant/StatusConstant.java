@@ -20,6 +20,7 @@ public interface StatusConstant {
 	public static final String OTP_WAITING_TIME = "OTP_WAITING_TIME";
 	public static final String IMG_SAVED = "Profile picture saved successfully";
 	public static final String SIZE = "SIZE";
+	public static final boolean STATUS_ACTIVE1 = true;
 	
 
 

@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -21,12 +22,17 @@ import com.exam.constant.ExceptionConstant;
 import com.exam.constant.JobConstant;
 import com.exam.constant.StatusConstant;
 import com.exam.dto.FileResponse;
+import com.exam.dto.ImageRequest;
+import com.exam.dto.ImageResponse;
 import com.exam.dto.ProfilePicRequest;
+import com.exam.exception.BadParameterException;
+import com.exam.exception.NoDataFoundException;
 import com.exam.model.JobMaster;
 import com.exam.model.ProfilePic;
 import com.exam.repository.JobMasterRepository;
 import com.exam.repository.ProfilePicRepository;
 import com.exam.service.ProfilePicService;
+import com.exam.util.CommonUtil;
 import com.exam.util.FileUtil;
 import com.google.common.io.Files;
 
@@ -212,7 +218,69 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 		return fileResponse;
 	}
 
-	private FileResponse deleteProfilelPic(ProfilePicRequest profilePicRequest) {
+	
+	
+	@Override
+	public ImageResponse getImage(ImageRequest imageRequest) throws BadParameterException {
+
+		String imageType = null;
+		String username = null;
+		ImageResponse imageResponse = new ImageResponse();
+		if (CommonUtil.isStringNotNullandEmpty(imageRequest.getImageType())) {
+			imageType = imageRequest.getImageType();
+		} else {
+			imageResponse.setStatus(StatusConstant.STATUS_FAILURE);
+			imageResponse.setErrorCode(ExceptionConstant.IMAGE_TYPE_REQUIRED_EC);
+			imageResponse.setErrorDescription(ExceptionConstant.IMAGE_TYPE_REQUIRED_ED/* +" "+e.getMessage() */);
+			return imageResponse;
+		}
+		if (CommonUtil.isStringNotNullandEmpty(imageRequest.getImageType())) {
+			username = imageRequest.getUsername();
+		} else {
+			imageResponse.setStatus(StatusConstant.STATUS_FAILURE);
+			imageResponse.setErrorCode(ExceptionConstant.MSISDN_REQUIRED_EC);
+			imageResponse.setErrorDescription(ExceptionConstant.MSISDN_REQUIRED_ED);
+			return imageResponse;
+		}
+
+		if (StatusConstant.PROFILE_IMAGE.equalsIgnoreCase(imageType)) {
+			try {
+				Optional<ProfilePic> profilePicModel = Optional.ofNullable(imageRepository.findAllByUsername(username));
+
+				if (!profilePicModel.isPresent() || profilePicModel == null) {
+//				throw new NoDataFoundException(ExceptionConstant.RECORD_NOT_FOUND_EC);
+					imageResponse.setStatus(StatusConstant.STATUS_FAILURE);
+					imageResponse.setErrorCode(ExceptionConstant.RECORD_NOT_FOUND_EC);
+					imageResponse.setErrorDescription(ExceptionConstant.RECORD_NOT_FOUND_ED);
+					return imageResponse;
+				}
+
+				imageResponse.setStatus(StatusConstant.STATUS_SUCCESS);
+				imageResponse.setProfilePicStatus(profilePicModel.get().getStatus());
+				imageResponse.setFileName(profilePicModel.get().getFileName());
+				imageResponse.setUsername(profilePicModel.get().getUsername());
+				imageResponse.setFileType(profilePicModel.get().getFileType());
+				imageResponse.setImageType(profilePicModel.get().getImageType());
+				imageResponse.setFilePath(profilePicModel.get().getFileInPath());
+				imageResponse.setFilePath(profilePicModel.get().getFileInPath());
+				imageResponse.setPicByte(FileUtil.decompressBytes(profilePicModel.get().getPicByte()));
+			} catch (Exception ex) {
+				throw new NoDataFoundException(ex.getMessage());
+			}
+		} else {
+			imageResponse.setStatus(StatusConstant.STATUS_FAILURE);
+			imageResponse.setErrorCode(ExceptionConstant.INVALID_IMAGE_TYPE_EC);
+			imageResponse.setErrorDescription(ExceptionConstant.INVALID_IMAGE_TYPE_ED);
+		}
+
+		return imageResponse;
+	}
+	
+	
+	
+	
+	
+	public FileResponse deleteProfilelPic(ProfilePicRequest profilePicRequest) {
 
 		FileResponse fileResponse = new FileResponse();
 		try {
@@ -221,14 +289,16 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 
 			if (null != jobMaster) {
 				ProfilePic imageModel = imageRepository.findAllByUsername(profilePicRequest.getUsername());
-				File file = new File(jobMaster.getFileOutPath() + "/" + profilePicRequest.getUsername());
+				File file = new File(jobMaster.getFileOutPath() + "/" + imageModel.getFileName());
 
 				if (file.exists()) {
-					FileUtils.deleteDirectory(file);
+					
 					FileResponse fileRes = deleteFromDb(imageModel);
 					if (fileRes.getStatus().equalsIgnoreCase(StatusConstant.STATUS_SUCCESS)) {
+						FileUtils.forceDelete(file);
 						fileResponse.setStatus(StatusConstant.STATUS_SUCCESS);
 						fileResponse.setUsername(profilePicRequest.getUsername());
+						fileResponse.setJobName(profilePicRequest.getJobName());
 						fileResponse.setFilePath(jobMaster.getFileOutPath() + "/" + profilePicRequest.getUsername());
 						fileResponse.setFileName(imageModel.getFileName());
 						fileResponse.setErrorCode(ExceptionConstant.IMAGE_DELETED_FROM_DB_EC);
@@ -307,7 +377,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 			profilePicModel.setFileInPath(filePath);
 			profilePicModel.setFileType(multipartFile.getContentType());
 			profilePicModel.setImageType(StatusConstant.PROFILE_IMAGE);
-			profilePicModel.setStatus(StatusConstant.STATUS_ACTIVE);
+			profilePicModel.setStatus(StatusConstant.STATUS_ACTIVE1);
 			profilePicModel.setCreatedBy(username);
 			profilePicModel.setCreatedDate(LocalDateTime.now());
 		} catch (IOException e) {
@@ -321,19 +391,19 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 	private Long updateImageToDb(ProfilePic profilePic, MultipartFile multipartFile, String username, String filePath,
 			String finalFileName) throws FileUploadException {
 		try {
-//			profilePic.setUsername(username);
+			profilePic.setUsername(username);
 			profilePic.setPicByte(FileUtil.compressBytes(multipartFile.getBytes()));
 			profilePic.setFileName(finalFileName);
 			profilePic.setFileInPath(filePath);
 			profilePic.setImageType(StatusConstant.PROFILE_IMAGE);
 			profilePic.setFileType(multipartFile.getContentType());
-			profilePic.setStatus(StatusConstant.STATUS_ACTIVE);
+			profilePic.setStatus(StatusConstant.STATUS_ACTIVE1);
 //			profilePic.setCreatedBy(username);
 //			profilePic.setCreatedDate(LocalDateTime.now());
 			profilePic.setModifiedBy(username);
 			profilePic.setModifiedDate(LocalDateTime.now());
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			LOGGER.info(e.getMessage());
 			throw new FileUploadException(ExceptionConstant.FILE_UPLOAD_EX_ED);
 		}
@@ -344,8 +414,19 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 	private FileResponse deleteFromDb(ProfilePic imageModel2) throws FileUploadException, IOException {
 		FileResponse fileResponse = new FileResponse();
 		long id = imageModel2.getId();
-		imageRepository.deleteById(id);
+//		imageModel2.setFileInPath("");
+//		imageModel2.setFileName("");
+//		imageModel2.setFileType("");
+//		imageModel2.setImageType("");
+//		imageModel2.setModifiedBy("");
+//		imageModel2.setModifiedDate(null);
+//		imageModel2.setPicByte(null);
+		imageModel2.setStatus(false);
+		
+		imageRepository.save(imageModel2);
 		fileResponse.setStatus(StatusConstant.STATUS_SUCCESS);
+		fileResponse.setErrorCode(ExceptionConstant.IMAGE_DELETED_FROM_DB_EC);
+		fileResponse.setErrorDescription(ExceptionConstant.IMAGE_DELETED_FROM_DB_ED);
 		LOGGER.info("Image deleted from db for MSISDN..." + imageModel2);
 		return fileResponse;
 	}
@@ -355,5 +436,9 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 		List<JobMaster> jobMasterDetailsList = jobMasterRepository.findAll();
 		return jobMasterDetailsList;
 	}
+
+
+
+
 
 }
