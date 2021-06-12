@@ -114,7 +114,7 @@ public class FileUtil {
 	// Function to validate image file extension .
 	public static boolean checkImageFileExt(String fileName) {
 		// Regex to check valid image file extension.
-		String regex = "([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)";
+		String regex = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp|jpeg))$)";
 		Pattern p = Pattern.compile(regex);
 		if (fileName == null) {
 			return false;

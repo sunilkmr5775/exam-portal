@@ -28,7 +28,7 @@ import com.exam.service.QuizService;
 @RestController
 @Component
 @RequestMapping("/question")
-//@CrossOrigin("*")
+@CrossOrigin("*")
 public class QuestionController {
 
 	@Autowired
@@ -82,8 +82,19 @@ public class QuestionController {
 		Collections.shuffle(list);
 		return ResponseEntity.ok(list);
 	}
+	
 
-//	 DELETE QUESTION BY ID
+//	 GET ALL QUESTIONS OF ALL QUIZES
+	@GetMapping("/quiz/all/{qid}")
+	public ResponseEntity<?> getQuestionsOfQuizAdmin(@PathVariable("qid") Long qid) {
+		Quiz quiz = new Quiz();
+		quiz.setqId(qid);
+		Set<Question> questionsOfQuiz =  this.questionService.getQuestionsOfQuiz(quiz);
+		return ResponseEntity.ok(questionsOfQuiz);
+	}
+
+	
+//		 DELETE QUESTION BY ID
 	@DeleteMapping("/{quesId}")
 	public void deleteQuestion(@PathVariable("quesId") Long quesId) {
 		this.questionService.deleteQuestion(quesId);

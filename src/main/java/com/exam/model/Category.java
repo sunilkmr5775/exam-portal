@@ -41,7 +41,7 @@ public class Category {
 	@Column(name = "MODIFIED_DATE")
 	private LocalDateTime modifiedDate;
 	
-	@OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
 	@JsonIgnore
 	private Set<Quiz> quizSet = new LinkedHashSet<>();
 	

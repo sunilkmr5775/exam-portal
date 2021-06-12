@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.exam.constant.StatusConstant;
 import com.exam.exception.UserFoundException;
 import com.exam.model.UserRole;
 import com.exam.model.Users;
@@ -27,18 +28,25 @@ public class UserServiceImpl implements UserService {
 	private PasswordEncoder bcryptPassEncoder;
 	
 	@Override
-	public Users createUser(Users users, Set<UserRole> userRole) throws Exception {
-
+	public Users createUser(Users users, Set<UserRole> userRole) throws UserFoundException {
+		
 		Users local = this.userRepository.findByUsername(users.getUsername());
 //		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		if(null!=local) {
-			System.out.println("User already exist!!!");
-			throw new UserFoundException("User already exist!!!","102");
+			Users user1 = new Users();
+			user1.setUsername(users.getUsername());
+			user1.setStatus(StatusConstant.STATUS_FAILURE);
+			user1.setErrorCode("102");
+			user1.setErrorDescription("User already exist!!!");
+			return user1;
+//			System.out.println("User already exist!!!");
+//			throw new UserFoundException("User already exist!!!","102");
 		}else {
 			// create user
 			for(UserRole ur: userRole) {
 				roleRepository.save(ur.getRole());
 			}
+			users.setStatus(StatusConstant.STATUS_SUCCESS);
 			users.getUserRoles().addAll(userRole);
 			users.setCreatedBy(users.getUsername());
 			users.setCreatedDate(LocalDateTime.now());

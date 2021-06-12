@@ -31,7 +31,7 @@ public class Quiz {
 	@Column(name = "TITLE")
 	private String title;
 
-	@Column(name = "DESCRIPTION")
+	@Column(name = "DESCRIPTION", length = 5000)
 	private String description;
 	
 	@Column(name = "MAX_MARKS")

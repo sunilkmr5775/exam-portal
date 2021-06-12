@@ -104,7 +104,11 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        "/swagger-ui.html",
 	        "/v2/api-docs",
 	        "/favicon.ico",
-	        "/webjars/**"
+	        "/webjars/**",	        
+	        "/swagger-ui.html**", 
+            "/csrf**",    
+            "/swagger-resources**",  
+            "/v2/api-docs**"
 	};
 
 }

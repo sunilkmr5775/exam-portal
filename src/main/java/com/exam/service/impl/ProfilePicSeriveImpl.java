@@ -112,7 +112,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 											Files.move(inputFile, outputFile);
 											fileResponse.setUsername(username);
 											fileResponse.setStatus(fileRes.getStatus());
-											fileResponse.setJobName("PROFILEPICUPLOAD");
+											fileResponse.setJobName(jobName);
 //									fileResponse.setFileName(finalFileName);
 //									fileResponse.setFilePath(outFile.toString());
 											LOGGER.info("File moved from " + inputFile.toPath() + "to"
@@ -127,7 +127,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 												fileResponse
 														.setErrorDescription(ExceptionConstant.IMAGE_SAVED_IN_DB_ED);
 												fileResponse.setStatus(fileRes.getStatus());
-												fileResponse.setJobName("PROFILEPICUPLOAD");
+												fileResponse.setJobName(jobName);
 												fileResponse.setFileName(finalFileName);
 												fileResponse.setFilePath(outFile.toString());
 //										fileResponse.setHostName(CommonUtil.getHostName());
@@ -138,13 +138,13 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 												fileResponse.setErrorDescription(
 														ExceptionConstant.IMAGE_NOT_SAVED_IN_DB_ED);
 												fileResponse.setStatus(fileRes.getStatus());
-												fileResponse.setJobName("PROFILEPICUPLOAD");
+												fileResponse.setJobName(jobName);
 											}
 
 										} catch (IOException e) {
 											LOGGER.error("File not readable exception...", e.getMessage());
 											fileResponse.setUsername(username);
-											fileResponse.setJobName("PROFILEPICUPLOAD");
+											fileResponse.setJobName(jobName);
 											fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
 											fileResponse.setErrorCode(ExceptionConstant.IO_ERROR_OCCURED_EC);
 											fileResponse.setErrorDescription(e.getMessage());
@@ -154,7 +154,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 										LOGGER.error(
 												ExceptionConstant.REGULAR_ERROR_OCCURED_ED + " : " + e.getMessage());
 										fileResponse.setUsername(username);
-										fileResponse.setJobName("PROFILEPICUPLOAD");
+										fileResponse.setJobName(jobName);
 										fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
 										fileResponse.setErrorCode(ExceptionConstant.REGULAR_ERROR_OCCURED_EC);
 										fileResponse.setErrorDescription(e.getMessage());
@@ -164,7 +164,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 								} else {
 									LOGGER.error(ExceptionConstant.ERROR_WRITING_FILE_ED);
 									fileResponse.setUsername(username);
-									fileResponse.setJobName("PROFILEPICUPLOAD");
+									fileResponse.setJobName(jobName);
 									fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
 									fileResponse.setErrorCode(ExceptionConstant.ERROR_WRITING_FILE_EC);
 									fileResponse.setErrorDescription(ExceptionConstant.ERROR_WRITING_FILE_ED);
@@ -175,7 +175,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 								fileResponse.setErrorCode(ExceptionConstant.IMAGE_SIZE_EXCEEDS_EC);
 								fileResponse.setErrorDescription(ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
 								fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
-								fileResponse.setJobName("PROFILEPICUPLOAD");
+								fileResponse.setJobName(jobName);
 								throw new MaxUploadSizeExceededException(1024);
 //						throw new com.ooredoo.app.exception.FileUploadException(ExceptionConstant.IMAGE_SIZE_EXCEEDS_EC,
 //								ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
@@ -184,7 +184,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 
 							LOGGER.error(ExceptionConstant.INVALID_IMAGE_FORMAT_ED);
 							fileResponse.setUsername(username);
-							fileResponse.setJobName("PROFILEPICUPLOAD");
+							fileResponse.setJobName(jobName);
 							fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
 							fileResponse.setErrorCode(ExceptionConstant.INVALID_IMAGE_FORMAT_EC);
 							fileResponse.setErrorDescription(ExceptionConstant.INVALID_IMAGE_FORMAT_ED);
@@ -192,7 +192,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 					} catch (Throwable th) {
 						LOGGER.error(ExceptionConstant.REGULAR_ERROR_OCCURED_ED + " : " + th.getMessage());
 						fileResponse.setUsername(username);
-						fileResponse.setJobName("PROFILEPICUPLOAD");
+						fileResponse.setJobName(jobName);
 						fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
 						fileResponse.setErrorCode(ExceptionConstant.REGULAR_ERROR_OCCURED_EC);
 						fileResponse.setErrorDescription(th.getMessage());
@@ -201,8 +201,8 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 				}
 			} else {
 				LOGGER.error(ExceptionConstant.JOB_NOT_FOUND_ED);
-//			    fileResponse.setMsisdn(msisdn);
-				fileResponse.setJobName("PROFILEPICUPLOAD");
+			    fileResponse.setUsername(username);
+				fileResponse.setJobName(jobName);
 				fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
 				fileResponse.setErrorCode(ExceptionConstant.JOB_NOT_FOUND_EC);
 				fileResponse.setErrorDescription(ExceptionConstant.JOB_NOT_FOUND_ED);
@@ -210,7 +210,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 		} else {
 			LOGGER.error(ExceptionConstant.USER_NOT_REGISTERED_ED);
 		    fileResponse.setUsername(username);
-			fileResponse.setJobName("PROFILEPICUPLOAD");
+			fileResponse.setJobName(jobName);
 			fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
 			fileResponse.setErrorCode(ExceptionConstant.USER_NOT_REGISTERED_EC);
 			fileResponse.setErrorDescription(ExceptionConstant.USER_NOT_REGISTERED_ED);
@@ -371,7 +371,7 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 
 		ProfilePic profilePicModel = new ProfilePic();
 		try {
-//			profilePicModel.setUsername(username);
+			profilePicModel.setUsername(username);
 			profilePicModel.setPicByte(FileUtil.compressBytes(multipartFile.getBytes()));
 			profilePicModel.setFileName(finalFileName);
 			profilePicModel.setFileInPath(filePath);

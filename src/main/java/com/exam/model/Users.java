@@ -84,6 +84,10 @@ public class Users  implements UserDetails,Serializable
 
 	@Column(name = "MODIFIED_DATE")
 	private LocalDateTime modifiedDate;
+	
+	private String status;
+	private String errorCode;
+	private String errorDescription;
 
 //	User has many roles
 
@@ -210,8 +214,34 @@ public class Users  implements UserDetails,Serializable
 	public void setProfilePic(ProfilePic profilePic) {
 		this.profilePic = profilePic;
 	}
+
 	
 	
+	public String getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+
+	public String getErrorDescription() {
+		return errorDescription;
+	}
+
+	public void setErrorDescription(String errorDescription) {
+		this.errorDescription = errorDescription;
+	}
+
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
