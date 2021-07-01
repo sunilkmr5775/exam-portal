@@ -225,4 +225,7 @@ public class CommonUtil {
 		return (phoneNumber != null) ? phoneNumber.matches(MM_PHONE) : false;
 	}
 
+	public static String getTimeStamp() {
+		return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
+	}
 }

@@ -1,13 +1,11 @@
 package com.exam.exception;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 //import javax.mail.MessagingException;
 import javax.persistence.EntityNotFoundException;
 
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -17,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.exam.constant.ExceptionConstant;
@@ -67,12 +64,12 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
 	}
 
-	@ExceptionHandler(FileUploadException.class)
-	protected ResponseEntity<Object> handleFileUploadException(FileUploadException ex) {
-		log.error("FileUploadException");
-		ErrorMessages error = new ErrorMessages(ExceptionConstant.FILE_UPLOAD_EX_EC, ex.getMessage(), "FAILURE");
-		return new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
-	}
+//	@ExceptionHandler(FileUploadException.class)
+//	protected ResponseEntity<Object> handleFileUploadException(FileUploadException ex) {
+//		log.error("FileUploadException");
+//		ErrorMessages error = new ErrorMessages(ExceptionConstant.FILE_UPLOAD_EX_EC, ex.getMessage(), "FAILURE");
+//		return new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
+//	}
 
 
 	@ExceptionHandler(NoDataFoundException.class)

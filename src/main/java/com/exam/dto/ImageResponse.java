@@ -1,6 +1,5 @@
 package com.exam.dto;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 public class ImageResponse {

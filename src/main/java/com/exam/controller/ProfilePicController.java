@@ -24,7 +24,6 @@ import com.exam.dto.ImageResponse;
 import com.exam.dto.ProfilePicRequest;
 import com.exam.exception.BadParameterException;
 import com.exam.model.JobMaster;
-import com.exam.model.Users;
 import com.exam.repository.ProfilePicRepository;
 import com.exam.service.ProfilePicService;
 

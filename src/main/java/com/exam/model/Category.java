@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,9 +49,11 @@ public class Category {
 	public Category() {
 	}
 
-	public Category(String title, String description) {
+	public Category(String title, String description, LocalDateTime createdDate, String createdBy) {
 		this.title = title;
 		this.description = description;
+		this.createdDate=createdDate;
+		this.createdBy=createdBy;
 	}
 
 	public long getCid() {

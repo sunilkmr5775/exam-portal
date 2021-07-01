@@ -16,7 +16,7 @@
 	<groupId>com.exam</groupId>
 	<artifactId>exam-portal</artifactId>
 	<!-- <version>0.0.1</version> -->
-	 <version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<!-- <packaging>jar</packaging> -->
 	<name>exam-portal</name>
 	<description>Backend code for examportal</description>
@@ -140,6 +140,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 			<version>2.2.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.8</version>
 		</dependency>
 	</dependencies>
 

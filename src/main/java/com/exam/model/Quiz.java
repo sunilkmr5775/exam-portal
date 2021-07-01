@@ -57,8 +57,21 @@ public class Quiz {
 	private LocalDateTime modifiedDate;
 	
 	
+	public Quiz(String title, String description, String maxMarks, String numberOfQuestions, boolean active,
+			Category category, 
+			LocalDateTime createdDate) {
+		super();
+		this.title = title;
+		this.description = description;
+		this.maxMarks = maxMarks;
+		this.numberOfQuestions = numberOfQuestions;
+		this.active = active;
+		this.category = category;
+		this.createdDate = createdDate;
+	}
 
 	public Quiz() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public long getqId() {

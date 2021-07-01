@@ -48,8 +48,8 @@ public class UserController {
 		// user.setProfileImage(user.getFirstName()+".png");
 
 		Role role = new Role();
-		role.setRoleId(102);
-		role.setRoleName("NORMAL");
+		role.setRoleId(101);
+		role.setRoleName("ADMIN");
 		role.setCreatedBy(users.getUsername());
 		role.setCreatedDate(LocalDateTime.now());
 
