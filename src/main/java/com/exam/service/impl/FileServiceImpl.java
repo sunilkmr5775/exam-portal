@@ -121,7 +121,7 @@ public class FileServiceImpl implements FileService {
 							try {
 								FileReader filereader = new FileReader(fileArchivePath);
 
-//									Find Total Records
+//								Find Total Records
 								long totalRecords = Files.lines(Paths.get(fileArchivePath)).count();
 
 								System.out.println("Total Record Count : " + (totalRecords - 1));
@@ -134,8 +134,6 @@ public class FileServiceImpl implements FileService {
 								fileLog.setStatus(StatusConstant.STATUS_SUBMITTED);
 								fileLog.setCreatedBy(userName);
 								fileLog.setCreatedDate(LocalDateTime.now());
-
-								
 
 //								Process records line by line
 								BufferedReader br = new BufferedReader(filereader);
