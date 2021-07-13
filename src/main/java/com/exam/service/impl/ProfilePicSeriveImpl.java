@@ -74,11 +74,12 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 				} else {
 
 					try {
-						if (FileUtil.checkImageFileExt(multipartFile.getOriginalFilename())) {
+						String fileType = jobMasterDetails.getFileType();
+//						if (FileUtil.checkImageFileExt(multipartFile.getOriginalFilename())) {
 							boolean isImageSizeValid = false;
-							isImageSizeValid = fileUtil.validateFileRequest(multipartFile, "PROFILE_PIC_UPLOAD");
-//					if (fileUtil.validateFileRequest(multipartFile, "PROFILE_PIC_UPLOAD")) {
-							if (isImageSizeValid) {
+//							isImageSizeValid = fileUtil.validateFileRequest(multipartFile, "PROFILE_PIC_UPLOAD");
+					if (fileUtil.validateFileRequest(multipartFile, fileType)) {
+//							if (isImageSizeValid) {
 								String fileExtension = FileUtil
 										.getFileExtension(new File(multipartFile.getOriginalFilename()));
 								String finalFileName = username + "." + fileExtension;
@@ -169,17 +170,17 @@ public class ProfilePicSeriveImpl implements ProfilePicService {
 									fileResponse.setErrorCode(ExceptionConstant.ERROR_WRITING_FILE_EC);
 									fileResponse.setErrorDescription(ExceptionConstant.ERROR_WRITING_FILE_ED);
 								}
-							} else {
-
-								LOGGER.error(ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
-								fileResponse.setErrorCode(ExceptionConstant.IMAGE_SIZE_EXCEEDS_EC);
-								fileResponse.setErrorDescription(ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
-								fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
-								fileResponse.setJobName(jobName);
-								throw new MaxUploadSizeExceededException(1024);
-//						throw new com.ooredoo.app.exception.FileUploadException(ExceptionConstant.IMAGE_SIZE_EXCEEDS_EC,
-//								ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
-							}
+//							} else {
+//
+//								LOGGER.error(ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
+//								fileResponse.setErrorCode(ExceptionConstant.IMAGE_SIZE_EXCEEDS_EC);
+//								fileResponse.setErrorDescription(ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
+//								fileResponse.setStatus(StatusConstant.STATUS_FAILURE);
+//								fileResponse.setJobName(jobName);
+//								throw new MaxUploadSizeExceededException(1024);
+////						throw new com.ooredoo.app.exception.FileUploadException(ExceptionConstant.IMAGE_SIZE_EXCEEDS_EC,
+////								ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
+//							}
 						} else {
 
 							LOGGER.error(ExceptionConstant.INVALID_IMAGE_FORMAT_ED);

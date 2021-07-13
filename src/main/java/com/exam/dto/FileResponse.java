@@ -1,46 +1,19 @@
 package com.exam.dto;
 
-public class FileResponse {
+public class FileResponse extends BaseResponse {
 
-	private String status;
 	private String username;
 	private String jobName;
 	private String filePath;
 	private String fileName;
-	private String errorCode;
-	private String errorDescription;
 
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public String getUsername() {
 		return username;
 	}
-
+//
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getErrorCode() {
-		return errorCode;
-	}
-
-	public void setErrorCode(String errorCode) {
-		this.errorCode = errorCode;
-	}
-
-	public String getErrorDescription() {
-		return errorDescription;
-	}
-
-	public void setErrorDescription(String errorDescription) {
-		this.errorDescription = errorDescription;
 	}
 
 	public String getFilePath() {
@@ -67,12 +40,22 @@ public class FileResponse {
 		this.fileName = fileName;
 	}
 
+	public FileResponse(String jobName, String filePath, String fileName) {
+		this.jobName = jobName;
+		this.filePath = filePath;
+		this.fileName = fileName;
+	}
+
+	public FileResponse() {
+	}
+
 	@Override
 	public String toString() {
-		return "FileResponse [status=" + status + ", username=" + username + ", jobName=" + jobName + ", filePath="
-				+ filePath + ", fileName=" + fileName + ", errorCode=" + errorCode + ", errorDescription="
-				+ errorDescription + "]";
+		return "FileResponse [jobName=" + jobName + ", filePath=" + filePath + ", fileName=" + fileName + "]";
 	}
+
+	
+	
 
 	
 }

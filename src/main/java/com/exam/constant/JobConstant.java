@@ -7,5 +7,8 @@ public interface JobConstant {
 	public static final String PASSPORT_UPLOAD_JOB = "PASSPORT_UPLOAD_JOB";
 	public static final String NRC_UPLOAD_JOB = "NRC_UPLOAD_JOB";
 	public static final String PROFILE_PIC_DELETE_JOB = "PROFILE_PIC_DELETE_JOB";
+	public static final String BULK_UPLOAD_CATEGORIES = "BULK_UPLOAD_CATEGORIES";
+	public static final String BULK_UPLOAD_QUIZZES = "BULK_UPLOAD_QUIZZES";
+	
 
 }

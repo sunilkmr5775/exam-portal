@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ import java.util.zip.Inflater;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +37,9 @@ public class FileUtil {
 	@Autowired
 	FileTypeRuleAttributeRepository fileTypeRuleAttributeRepository;
 
+	@Value("${quizFile.upload.header}")
+	private String PROPERTIES_HEADER;
+
 	private InputStream inputStream;
 
 	public InputStream getInputStream() {
@@ -45,14 +50,14 @@ public class FileUtil {
 		this.inputStream = inputStream;
 	}
 
-	public static FileResponse wirteToInputFile(MultipartFile multipartFile, String fileInPath, String fileName) {
+	public static FileResponse wirteToInputFile(MultipartFile multipartFile, String fileInputPath, String fileName) {
 		FileResponse fileResponse = new FileResponse();
 
 		try {
 			File tmpFile = new File(fileName);
 			LOGGER.info("tmpFile: " + tmpFile.getName());
 
-			Path filePath = Paths.get(fileInPath, tmpFile.getName());
+			Path filePath = Paths.get(fileInputPath, tmpFile.getName());
 			LOGGER.info("filePath: " + filePath);
 
 			fileResponse.setFileName(fileName);
@@ -83,11 +88,11 @@ public class FileUtil {
 		else
 			return "";
 	}
-	
+
 	public static String getFileExtension(File file) {
 		String fileName = file.getName();
 		if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
-			return fileName.substring(fileName.indexOf(".")+1);
+			return fileName.substring(fileName.indexOf(".") + 1);
 		else
 			return "";
 	}
@@ -123,6 +128,15 @@ public class FileUtil {
 		return m.matches();
 	}
 
+	public static boolean hasCSVFormat(MultipartFile file) {
+		System.out.println(file.getContentType());
+		if ("text/csv".equals(file.getContentType()) || file.getContentType().equals("application/vnd.ms-excel")) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public static long getFileSize(String fileName) {
 		Path path = Paths.get(fileName);
 		long bytes = 0L;
@@ -156,35 +170,88 @@ public class FileUtil {
 		return outputStream.toByteArray();
 	}
 
-	public boolean validateFileRequest(MultipartFile file, String fileType)
-			throws FileUploadException, IOException {
-		//String fileInPath = jobMasterDetails.getFileInPath();
-	//	LOGGER.info("fileInpPath:" + fileInPath);
+	public boolean validateFileRequest(MultipartFile file, String fileType) throws FileUploadException, IOException {
 		List<FileTypeRuleAttribute> fileTypeRuleAttributeList = fileTypeRuleAttributeRepository
 				.findFileTypeRuleAttributeListByfileTypeAndStatus(fileType, StatusConstant.STATUS_ACTIVE);
 
-		long fileSize = file.getSize();
-
-		LOGGER.info("fileSize:" + fileSize);
+		Long fileSize = file.getSize();
+		String fileExtension = getFileExtension(new File(file.getOriginalFilename()));
+		System.out.println("fileSize:" + fileSize);
+		System.out.println("file Ext:" + fileExtension);
 		boolean flag = true;
 
 		LOGGER.info("Checking Validation ,Validation Found " + fileTypeRuleAttributeList);
-		for(FileTypeRuleAttribute ruleAttribute:fileTypeRuleAttributeList) {
+		for (FileTypeRuleAttribute ruleAttribute : fileTypeRuleAttributeList) {
 			if (ruleAttribute.getRuleType().equalsIgnoreCase(StatusConstant.SIZE)) {
 				if (!(fileSize > 0)) {
 					throw new FileUploadException(ExceptionConstant.EMPTY_FILE_EC, ExceptionConstant.EMPTY_FILE_ED);
 				}
+				try {
+					if (!(fileSize <= Long.parseLong(ruleAttribute.getRulevalue()))) {
+						throw new FileUploadException(ExceptionConstant.IMAGE_SIZE_EXCEEDS_EC,
+								ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
+					}
 
-				if (!(fileSize <= Long.parseLong(ruleAttribute.getRulevalue()))) {
+					LOGGER.info("SIZE: true");
+				} catch (Exception ex) {
+					System.out.println(ex.getMessage());
 					throw new FileUploadException(ExceptionConstant.IMAGE_SIZE_EXCEEDS_EC,
 							ExceptionConstant.IMAGE_SIZE_EXCEEDS_ED);
 				}
 
-				LOGGER.info("SIZE: true");
+			}
+			if (ruleAttribute.getRuleType().equalsIgnoreCase(StatusConstant.EXTENSION)) {
 
-			}			
+				try {
+
+					if (!(fileExtension.equalsIgnoreCase(ruleAttribute.getRulevalue()))) {
+						throw new FileUploadException(ExceptionConstant.INVALID_FILE_FORMAT_EC,
+								ExceptionConstant.INVALID_FILE_FORMAT_ED);
+					}
+					LOGGER.info("EXTENSION: true");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					System.out.println(ex.getMessage());
+					throw new FileUploadException(ExceptionConstant.INVALID_FILE_FORMAT_EC,
+							ExceptionConstant.INVALID_FILE_FORMAT_ED);
+				}
+			}
+
 		}
 
+		LOGGER.info("Validated");
+		return flag;
+	}
+
+	public boolean validateFileHeader(String fileType, String FILE_HEADER) throws FileUploadException, IOException {
+		List<FileTypeRuleAttribute> fileTypeRuleAttributeList = fileTypeRuleAttributeRepository
+				.findFileTypeRuleAttributeListByfileTypeAndStatus(fileType, StatusConstant.STATUS_ACTIVE);
+
+		System.out.println("FILE_HEADER:" + FILE_HEADER);
+		boolean flag = true;
+
+		LOGGER.info("Checking Header Validation ,Validation Found " + fileTypeRuleAttributeList);
+		for (FileTypeRuleAttribute ruleAttribute : fileTypeRuleAttributeList) {
+
+			if (ruleAttribute.getRuleType().equalsIgnoreCase(StatusConstant.HEADER)) {
+
+				try {
+					String DB_HEADER = ruleAttribute.getRulevalue().trim();
+					if (!(FILE_HEADER.trim().equalsIgnoreCase(DB_HEADER.trim()))) {
+						throw new FileUploadException(ExceptionConstant.INVALID_HEADER_EC,
+								ExceptionConstant.INVALID_HEADER_ED);
+					}
+
+					LOGGER.info("HEADER: true");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					System.out.println(ex.getMessage());
+					throw new FileUploadException(ExceptionConstant.INVALID_HEADER_EC,
+							ExceptionConstant.INVALID_HEADER_ED);
+				}
+
+			}
+		}
 
 		LOGGER.info("Validated");
 		return flag;

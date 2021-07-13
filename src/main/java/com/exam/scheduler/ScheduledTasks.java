@@ -1,6 +1,5 @@
 package com.exam.scheduler;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.exam.util.CommonUtil;

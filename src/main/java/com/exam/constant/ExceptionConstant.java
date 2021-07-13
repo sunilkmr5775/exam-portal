@@ -82,7 +82,7 @@ public interface ExceptionConstant {
 	public static final String TOKEN_REFRESHED_ED = "Token refreshed";
 
 	public static final String FILE_CANNOT_BE_MOVED_EC = "OCR222";
-	public static final String FILE_CANNOT_BE_MOVED_ED = "FILE_CANNOT BE MOVED";
+	public static final String FILE_CANNOT_BE_MOVED_ED = "FILE CANNOT BE MOVED";
 
 	public static final String INVALID_URI_EC = "OCR223";
 	public static final String INVALID_URI_ED = "INVALID NRC/PASSPORT URI";
@@ -144,6 +144,21 @@ public interface ExceptionConstant {
 	public static final String IMAGE_DELETED_FROM_DB_EC = "FILEUPLOAD109";
 	public static final String IMAGE_DELETED_FROM_DB_ED = "Profile Picture deleted successfully";
 	
+	public static final String INVALID_FILE_FORMAT_EC = "FILEUPLOAD110";
+	public static final String INVALID_FILE_FORMAT_ED = "Invalid file format. Please upload csv file format only";
+	
+	public static final String FILE_SAVED_IN_DB_EC = "FILEUPLOAD111";
+	public static final String FILE_SAVED_IN_DB_ED = "File saved successfully";
+	
+    public static final String INVALID_HEADER_EC = "FILEUPLOAD112";
+    public static final String INVALID_HEADER_ED = "Invalid header. Please try with correct header.";
+    
+	public static final String FILE_NOT_SAVED_EC = "FILEUPLOAD113";
+	public static final String FILE_NOT_SAVED_ED = "File cannot be saved.";
+	
+	public static final String NO_CATEGORY_FOUND_EC = "FILEUPLOAD114";
+	public static final String NO_CATEGORY_FOUND_ED = "No Category found. Please fist create/upload category";
+    
     public static final String INVALID_IMAGE_TYPE_EC = "COMMONERROR332";
     public static final String INVALID_IMAGE_TYPE_ED = "INVALID IMAGE TYPE";
     
@@ -171,5 +186,9 @@ public interface ExceptionConstant {
     
     public static final String USER_NOT_REGISTERED_EC = "101";
     public static final String USER_NOT_REGISTERED_ED = "User is not Registered. ";
+    
+    
+    
+
     
 }

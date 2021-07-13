@@ -5,7 +5,7 @@ package com.exam.exception;
  * FileUploadException.java
  * Sep 10, 2019
  */
-public class FileUploadException extends Throwable{
+public class FileUploadException extends RuntimeException{
 	
 	
 	private static final long serialVersionUID = 1L;

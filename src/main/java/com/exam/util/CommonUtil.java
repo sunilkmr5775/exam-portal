@@ -133,7 +133,9 @@ public class CommonUtil {
 	}
 
 	public static String currentDateTime() {
-		String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHmmssSSS"));
+		String newDelhiDateTimePattern = "ddMMyyyy_HHmmss";
+//		String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHmmssSSS"));
+		String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern(newDelhiDateTimePattern));
 		return formattedDateTime;
 	}
 

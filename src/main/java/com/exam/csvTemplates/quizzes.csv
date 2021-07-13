@@ -1,0 +1,36 @@
+SNO,TITLE,DESCRIPTION,MAX_MARKS,NO_OF_QUESTIONS,PUBLISHED,CATEGORY
+1,String,This quiz contains questions from String,100,50,TRUE,Core Java
+2,Collection framework,This quiz contains questions from Collection framework,100,50,TRUE,Core Java
+3,Synchronization,This quiz contains questions from Synchronization,100,50,TRUE,Core Java
+4,Multithreading,This quiz contains questions from Multithreading,100,50,TRUE,Core Java
+5,OOPS,This quiz contains questions from OOPS,100,50,TRUE,Core Java
+6,Exception handling,This quiz contains questions from Exception handling,100,50,TRUE,Core Java
+7,HTML Part-1,This quiz contains questions from HTML Part-1,100,50,TRUE,HTML
+8,HTML Part-2,This quiz contains questions from HTML Part-2,100,50,TRUE,HTML
+9,HTML Part-3,This quiz contains questions from HTML Part-3,100,50,TRUE,HTML
+10,HTML Part-4,This quiz contains questions from HTML Part-4,100,50,TRUE,HTML
+11,REST web services -1,This quiz contains questions from REST web services -1,100,50,TRUE,REST web services
+12,REST web services -2,This quiz contains questions from REST web services -2,100,50,TRUE,REST web services
+13,REST web services -3,This quiz contains questions from REST web services -3,100,50,TRUE,REST web services
+14,REST web services -4,This quiz contains questions from REST web services -4,100,50,TRUE,REST web services
+15,MySql,This quiz contains questions from MySql,100,50,TRUE,Database
+16,Postgre SQL,This quiz contains questions from Postgre SQL,100,50,TRUE,Database
+17,NoSQL,This quiz contains questions from NoSQL,100,50,TRUE,Database
+18,Hbase,This quiz contains questions from Hbase,100,50,TRUE,Database
+19,Angular Part-1,This quiz contains questions from Angular Part-1,100,50,TRUE,Angular
+20,Angular Part-2,This quiz contains questions from Angular Part-2,100,50,TRUE,Angular
+21,Angular Part-3,This quiz contains questions from Angular Part-3,100,50,TRUE,Angular
+22,Angular Part-4,This quiz contains questions from Angular Part-4,100,50,TRUE,Angular
+23,Spring Boot,This quiz contains questions from Spring Boot,100,50,TRUE,Java Framework
+24,Hibernate,This quiz contains questions from Hibernate,100,50,TRUE,Java Framework
+25,Spring,This quiz contains questions from Spring,100,50,TRUE,Java Framework
+26,Struts,This quiz contains questions from Struts,100,50,TRUE,Java Framework
+27,Servlets,This quiz contains questions from Servlets,100,50,TRUE,Advance Java
+28,JSP,This quiz contains questions from JSP ,100,50,TRUE,Advance Java
+29,Session Handling,This quiz contains questions from Session Handling,100,50,TRUE,Advance Java
+30,Networking,This quiz contains questions from Networking,100,50,TRUE,Advance Java
+31,Docker,This quiz contains questions from Docker,100,50,TRUE,DevOps
+32,Chef,This quiz contains questions from Chef,100,50,TRUE,DevOps
+33,Ansible,This quiz contains questions from Ansible,100,50,TRUE,DevOps
+34,Kubernetes,This quiz contains questions from Kubernetes,100,50,TRUE,DevOps
+35,Docker Container,This quiz contains questions from Docker Container,100,50,TRUE,DevOps
