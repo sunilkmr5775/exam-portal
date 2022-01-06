@@ -148,7 +148,7 @@ public interface ExceptionConstant {
 	public static final String INVALID_FILE_FORMAT_ED = "Invalid file format. Please upload csv file format only";
 	
 	public static final String FILE_SAVED_IN_DB_EC = "FILEUPLOAD111";
-	public static final String FILE_SAVED_IN_DB_ED = "File saved successfully";
+	public static final String FILE_SAVED_IN_DB_ED = "File saved successfully.";
 	
     public static final String INVALID_HEADER_EC = "FILEUPLOAD112";
     public static final String INVALID_HEADER_ED = "Invalid header. Please try with correct header.";
@@ -186,6 +186,9 @@ public interface ExceptionConstant {
     
     public static final String USER_NOT_REGISTERED_EC = "101";
     public static final String USER_NOT_REGISTERED_ED = "User is not Registered. ";
+    
+    public static final String DATA_SAVED_SUCCESSFULLY_EC = "DATA101";
+    public static final String DATA_SAVED_SUCCESSFULLY_ED = "Data saved successfully.";
     
     
     

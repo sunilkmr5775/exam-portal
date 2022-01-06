@@ -6,6 +6,7 @@ public interface ConstantURL {
 	public static final String Fetch_Pic_Controller = "fetchPicController/";
 	public static final String User_Controller = "userController/";
 	public static final String OTP_Controller = "OTPController/";
+	public static final String Menu_Controller = "menuController/";
 	public static final String File_Upload_URL = "fileUpload";
 	public static final String Facebook_Token = "facebook";
 	public static final String Facebook_Auth_URL = "getAuthUrl";

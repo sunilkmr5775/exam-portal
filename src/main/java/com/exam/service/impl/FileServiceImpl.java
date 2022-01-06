@@ -70,6 +70,7 @@ public class FileServiceImpl implements FileService {
 		String userName = fileRequest.getUserName();
 		MultipartFile multipartFile = fileRequest.getFile();
 		JobMaster jobMasterDetails = null;
+		Long fileLogId = 0L;
 
 		try {
 			jobMasterDetails = jobMasterRepository.findJobMasterDetailsByJobNameAndStatus(jobName,
@@ -139,7 +140,7 @@ public class FileServiceImpl implements FileService {
 								BufferedReader br = new BufferedReader(filereader);
 								String line = null;
 								String HEADER = br.readLine();
-								Long fileLogId = 0L;
+								
 								System.out.println("HEADER: " + HEADER);
 								if (fileUtil.validateFileHeader(fileType, HEADER)) {
 								long cat =	categoryRepository.count();
@@ -193,7 +194,7 @@ public class FileServiceImpl implements FileService {
 
 							if (StatusConstant.STATUS_SUCCESS.equalsIgnoreCase(fileResponse.getStatus())) {
 								fileResponse.setErrorCode(ExceptionConstant.FILE_SAVED_IN_DB_EC);
-								fileResponse.setErrorDescription(ExceptionConstant.FILE_SAVED_IN_DB_ED);
+								fileResponse.setErrorDescription(ExceptionConstant.FILE_SAVED_IN_DB_ED+". File Log Id is: "+fileLogId);
 								fileResponse.setStatus(fileRes.getStatus());
 								fileResponse.setJobName(jobName);
 								fileResponse.setFileName(finalFileName);

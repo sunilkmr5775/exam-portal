@@ -23,7 +23,9 @@ public interface StatusConstant {
 	public static final String HEADER = "HEADER";
 	public static final String EXTENSION = "EXTENSION";
 	public static final boolean STATUS_ACTIVE1 = true;
-	
+	public static final String STATUS_PAID = "PAID";
+	public static final String STATUS_UNPAID = "UNPAID";
+	public static final String STATUS_UNKNOWN = "UNKNOWN";
 	
 	
 

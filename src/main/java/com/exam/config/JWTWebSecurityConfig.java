@@ -78,7 +78,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	private String[] HTTP_SEC_AUTH_WHITELIST = {
-			"/user/","/generateToken"
+			"/user/**","/quiz/**","/generateToken"
 //			,"/user/**"
 //			,"/current-user/"
 //			,"/category/"

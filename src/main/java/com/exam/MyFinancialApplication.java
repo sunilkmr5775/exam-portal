@@ -11,15 +11,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EnableScheduling
-public class ExamserverApplication extends SpringBootServletInitializer {
+public class MyFinancialApplication extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(ExamserverApplication.class);
+		return application.sources(MyFinancialApplication.class);
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExamserverApplication.class, args);
+		SpringApplication.run(MyFinancialApplication.class, args);
 	}
 
 

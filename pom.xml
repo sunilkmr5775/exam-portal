@@ -14,11 +14,11 @@
 		<description>CONSUMER APP</description> -->
 
 	<groupId>com.exam</groupId>
-	<artifactId>exam-portal</artifactId>
+	<artifactId>my-financial</artifactId>
 	<!-- <version>0.0.1</version> -->
 	<version>0.0.1-SNAPSHOT</version>
 	<!-- <packaging>jar</packaging> -->
-	<name>exam-portal</name>
+	<name>my-financial</name>
 	<description>Backend code for examportal</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -174,7 +174,7 @@
 				<version>2.19.1</version>
 			</plugin>
 		</plugins>
-		<finalName>exam-portal</finalName>
+		<finalName>my-financial</finalName>
 	</build>
 
 </project>
